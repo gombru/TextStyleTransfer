@@ -5,18 +5,20 @@ from PIL import Image
 import numpy as np
 import cv2
 
-images_path = '../../datasets/COCO-Text/other_img/'
-masks_path = '../../datasets/COCO-Text/WordsStyleTransfer/TextFCN_masks/other/'
-styled_images_path = '../../datasets/COCO-Text/WordsStyleTransfer/results/other/'
-out_path = '../../datasets/COCO-Text/WordsStyleTransfer/results_masking/other/'
-max_num_styles = 32
+images_path = '/home/raulgomez/datasets/COCO-Text/img/train_legible/'
+masks_path = '/home/raulgomez/datasets/StyleTransfer/TextFCN_masks/train_legible/'
+styled_images_path = '../../other_datasets/COCO-Text/train_legible_words/'
+out_path = '../../other_datasets/COCO-Text/train_styled_masked/'
+max_num_styles = 34
 
 if not os.path.isdir(out_path):
     os.mkdir(out_path)
 
 for file in os.listdir(images_path):
+
     src_img = np.array(Image.open(images_path + file))
     mask = np.array(Image.open(masks_path + file.split('/')[-1].replace('jpg','png')))
+    # mask[mask < 200] = 0
     mask = mask/255.0
     inv_mask = 1.0 - mask
     for s in range(max_num_styles):
